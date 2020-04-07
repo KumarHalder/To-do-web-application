@@ -1,4 +1,4 @@
-import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
+/*import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
 import 'source-map-support/register'
 
 import { verify, decode } from 'jsonwebtoken'
@@ -75,3 +75,4 @@ function getToken(authHeader: string): string {
 
   return token
 }
+*/
