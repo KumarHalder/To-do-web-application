@@ -5,17 +5,19 @@ import {  TodoItem } from '../models/TodoItem'
 import { getUserId } from '../lambda/utils';
 import { TodoUpdate } from '../models/TodoUpdate';
 import { APIGatewayProxyEvent} from 'aws-lambda'
-
+//import * as AWSXRay from "aws-xray-sdk";
+const AWSXRay = require('aws-xray-sdk');
+const XAWS = AWSXRay.captureAWS(AWS);
 export class TodoAccess
 {
     constructor(
-        private readonly docClient: DocumentClient =  new AWS.DynamoDB.DocumentClient(),
+        private readonly docClient: DocumentClient =  createDynamoDBClient(),
         private readonly todoTable = process.env.TODO_TABLE
     ){
     }
 
     async getAllToDos(event: APIGatewayProxyEvent): Promise<TodoItem[]>{
-        //console.log("getting all todos", event);
+        console.log(this.todoTable);
         console.log("userID",getUserId(event))
         // const result = await this.docClient.query({
         //     TableName: this.todoTable,
@@ -94,3 +96,13 @@ export class TodoAccess
 }
 
 
+function createDynamoDBClient() {
+    if (process.env.IS_OFFLINE) {
+      console.log("Creating a local DynamoDB instance");
+    return new XAWS.DynamoDB.DocumentClient({
+        region: "localhost",
+        endpoint: "http://localhost:8000"
+    });
+  }
+  return new XAWS.DynamoDB.DocumentClient();
+}
