@@ -86,13 +86,45 @@ async function createImage(userId: string, todoId: string, imageId: string, item
     imageUrl: `https://${bucketName}.s3.amazonaws.com/${imageId}`
   }
   console.log('Storing new item: ', newItem)
-
+  //Put item in image imagetable
   await docClient
     .put({
       TableName: imagesTable,
       Item: newItem
     })
     .promise()
+  //  Update item attachmentURL in todoTable
+  var params = {
+    TableName:todoTable,
+    Key:{
+      "userId": userId,
+      "todoId": todoId
+      
+    },
+    UpdateExpression: "set #attachmentURL = :n",
+    ExpressionAttributeValues:{
+        ":n": `https://${bucketName}.s3.amazonaws.com/${imageId}`
+    },
+    ExpressionAttributeNames:{
+      "#attachmentURL": "attachmentUrl"  
+    },
+    ReturnValues:"UPDATED_NEW"
+};
+await docClient.update(params, function(err, data) {
+  if (err) {
+      console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+      return {
+        statusCode:404,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: 'Unable to delete' 
+
+      }
+  } else {
+      console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+  }
+}).promise();
 
   return newItem
 }
