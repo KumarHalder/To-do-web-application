@@ -67,9 +67,9 @@ This should start a development server with the React application that will inte
 
 An alternative way to test your API, you can use the Postman collection that contains sample requests. You can find a Postman collection in this project. To import this collection, do the following.
 
-Click on the import button:
+Sample Application Image:
 
-![Alt text](images/import-collection-1.png?raw=true "Image 1")
+![Alt text](images/Sample.png?raw=true "Image 1")
 
 
 Click on the "Choose Files":
