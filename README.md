@@ -61,15 +61,17 @@ npm install
 npm run start
 ```
 
+Sample Application Image:
+
+![Alt text](images/Sample.png?raw=true "Image 1")
+
 This should start a development server with the React application that will interact with the serverless TODO application.
 
 # Postman collection
 
 An alternative way to test your API, you can use the Postman collection that contains sample requests. You can find a Postman collection in this project. To import this collection, do the following.
 
-Sample Application Image:
 
-![Alt text](images/Sample.png?raw=true "Image 1")
 
 
 Click on the "Choose Files":
